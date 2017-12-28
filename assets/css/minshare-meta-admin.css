@@ -1,0 +1,36 @@
+
+.minshare-meta-settings-page-wrap form table {
+	max-width: 880px;
+}
+
+.minshare-meta-settings-page-wrap form .form-table th {
+	width: 160px;
+}
+
+.minshare-meta-settings-page-wrap input.upload-field {
+	width: 520px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.minshare-meta-settings-page-wrap .upload-button {
+	margin-left: 6px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.minshare-meta-settings-page-wrap .minshare-meta-setting-radio-item {
+	width: 100%;
+	display: block;
+	height: 24px;
+	margin-bottom: 3px;
+}
+
+.minshare-meta-settings-page-wrap .minshare-meta-setting-radio-item input {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.minshare-meta-settings-page-wrap .minshare-meta-setting-radio-item label {
+	margin: 0 0 0 4px;
+}
