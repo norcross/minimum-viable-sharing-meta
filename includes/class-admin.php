@@ -84,12 +84,7 @@ class MinimumViableMeta_Admin {
 		$screen = get_current_screen();
 
 		// Bail if we aren't on the right part, or the screen object is fucked.
-		if ( ! is_object( $screen ) || empty( $screen->base ) ) {
-			return $text;
-		}
-
-		// We fit the requirement, so let's do it.
-		if ( 'appearance_page_minshare-meta-settings' !== $screen->base ) {
+		if ( ! is_object( $screen ) || empty( $screen->base ) || 'appearance_page_minshare-meta-settings' !== $screen->base ) {
 			return $text;
 		}
 
