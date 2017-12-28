@@ -163,7 +163,7 @@ final class MinimumViableMeta_Core {
 	public function includes() {
 
 		// Load our various classes.
-		require_once MINSHARE_META_INCLS . '/helper.php';
+		require_once MINSHARE_META_INCLS . '/class-helper.php';
 
 		// Load the classes that are only accessible via admin.
 		if ( is_admin() ) {
