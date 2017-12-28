@@ -45,6 +45,11 @@ class MinimumViableMeta_Display {
 			// Fetch our tags.
 			$tags	= MinimumViableMeta_Helper::get_single_tags( $the_id );
 
+			// First check for a featured image if none was set.
+			if ( is_singular() && empty( $tags['image'] ) ) {
+				$tags['image']  = get_the_post_thumbnail_url( $the_id, 'medium' );
+			}
+
 			// Loop my tags and output as appropriate.
 			foreach ( $tags as $type => $value ) {
 
