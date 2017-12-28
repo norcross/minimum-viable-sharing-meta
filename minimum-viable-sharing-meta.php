@@ -167,12 +167,15 @@ final class MinimumViableMeta_Core {
 
 		// Load the classes that are only accessible via admin.
 		if ( is_admin() ) {
+			require_once MINSHARE_META_INCLS . '/class-admin.php';
 			require_once MINSHARE_META_INCLS . '/class-fields.php';
 			require_once MINSHARE_META_INCLS . '/class-settings.php';
+			require_once MINSHARE_META_INCLS . '/class-post-meta.php';
 		}
 
 		// Handle our front-end only items.
 		if ( ! is_admin() ) {
+			require_once MINSHARE_META_INCLS . '/class-display.php';
 		}
 
 		// And our install script.
@@ -241,6 +244,15 @@ final class MinimumViableMeta_Core {
 	 */
 	public function role_cap() {
 		return apply_filters( 'minshare_meta_menu_item_cap', 'publish_posts' );
+	}
+
+	/**
+	 * Sets our supported post types.
+	 *
+	 * @return string
+	 */
+	public function supported_types() {
+		return apply_filters( 'minshare_meta_supported_types', array( 'post', 'page' ) );
 	}
 
 	// End our class.

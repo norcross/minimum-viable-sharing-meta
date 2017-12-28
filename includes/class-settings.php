@@ -5,6 +5,9 @@
  * @package MinimumViableMeta
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Start our engines.
  */
@@ -14,7 +17,6 @@ class MinimumViableMeta_Settings {
 	 * The slugs being used for the menus.
 	 */
 	public static $menu_slug = 'minshare-meta-settings';
-	public static $hook_slug = 'appearance_page_minshare-meta-settings';
 
 	/**
 	 * Call our hooks.
@@ -22,37 +24,8 @@ class MinimumViableMeta_Settings {
 	 * @return void
 	 */
 	public function init() {
-		add_action( 'admin_enqueue_scripts',        array( $this, 'load_admin_assets'       ),  10      );
 		add_action( 'admin_init',                   array( $this, 'load_default_settings'   )           );
 		add_action( 'admin_menu',                   array( $this, 'load_admin_menu'         )           );
-	}
-
-	/**
-	 * Load our admin side JS and CSS.
-	 *
-	 * @todo add conditional loading for the assets.
-	 *
-	 * @return void
-	 */
-	public function load_admin_assets( $hook ) {
-
-		// Only load on our settings page.
-		if ( $hook !== self::$hook_slug ) {
-			return;
-		}
-
-		// Set a file suffix structure based on whether or not we want a minified version.
-		$file   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'minshare-meta-admin' : 'minshare-meta-admin.min';
-
-		// Set a version for whether or not we're debugging.
-		$vers   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : MINSHARE_META_VERS;
-
-		// Load our CSS file.
-		wp_enqueue_style( 'minshare-meta-admin', MINSHARE_META_ASSETS_URL . '/css/' . $file . '.css', false, $vers, 'all' );
-
-		// And our JS.
-		wp_enqueue_media();
-		wp_enqueue_script( 'minshare-meta-admin', MINSHARE_META_ASSETS_URL . '/js/' . $file . '.js', array( 'jquery' ), $vers, true );
 	}
 
 	/**
@@ -95,7 +68,7 @@ class MinimumViableMeta_Settings {
 		register_setting(
 			'minshare-meta-default-settings-section',
 			'minshare_meta_defaults',
-			array( 'sanitize_callback' => array( __class__, 'array_sanitize' ) )
+			array( 'sanitize_callback' => array( 'MinimumViableMeta_Helper', 'array_sanitize' ) )
 		);
 
 		// Include our action before it all fires.
@@ -160,7 +133,7 @@ class MinimumViableMeta_Settings {
 		$fkey   = ! empty( $args['key'] ) ? $args['key'] : '';
 
 		// Check the values that may have been stored as well.
-		$values = get_option( 'minshare_meta_defaults', array() );
+		$values = MinimumViableMeta_Helper::get_saved_settings();
 
 		// Check for a value.
 		$value  = ! empty( $values[ $fkey ] ) ? $values[ $fkey ] : false;
@@ -191,48 +164,6 @@ class MinimumViableMeta_Settings {
 	 */
 	public static function settings_header() {
 		echo '<p>' . esc_html__( 'Enter the values to be used as defaults when individual items are not available.', 'minimum-viable-sharing-meta' ) . '</p>';
-	}
-
-	/**
-	 * Sanitize the array based data inputs.
-	 *
-	 * @param  array $input  The data entered in a settings field.
-	 *
-	 * @return array $input  The sanitized data.
-	 */
-	public static function array_sanitize( $input ) {
-
-		// Set an empty.
-		$output = array();
-
-		foreach ( $input as $k => $v ) {
-
-			// Handle my different field.
-			switch ( esc_attr( $k ) ) {
-
-				case 'title' :
-					$output[ $k ] = sanitize_text_field( $v );
-					break;
-
-				case 'desc' :
-					$output[ $k ] = sanitize_textarea_field( $v );
-					break;
-
-				case 'image' :
-					$output[ $k ] = esc_url( $v );
-					break;
-
-				case 'card' :
-					$output[ $k ] = sanitize_text_field( $v );
-					break;
-
-				default :
-					$output[ $k ] = sanitize_text_field( $v );
-			}
-		}
-
-		// Now return it.
-		return $output;
 	}
 
 	// End our class.

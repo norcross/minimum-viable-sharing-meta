@@ -5,6 +5,9 @@
  * @package MinimumViableMeta
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Start our engines.
  */
@@ -48,6 +51,7 @@ class MinimumViableMeta_Fields {
 				'name'  => 'minshare_meta_defaults[image]',
 				'fname' => __( 'Image', 'minimum-viable-sharing-meta' ),
 				'class' => 'minshare-meta-image-field',
+				'help'  => __( 'Upload an image or select an existing.', 'minimum-viable-sharing-meta' ),
 			),
 
 			// The twitter card field.
@@ -254,9 +258,9 @@ class MinimumViableMeta_Fields {
 		// Now add the button.
 		$field .= '<button id="" class="button button-small button-secondary upload-button" type="button">' . esc_html__( 'Upload', 'minimum-viable-sharing-meta' ) . '</button>';
 
-		// Output our label if we have one.
-		if ( ! empty( $args['label'] ) ) {
-			$field .= '<p class="description">' . esc_html( $args['label'] ) . '</p>';
+		// Output our help text if we have one.
+		if ( ! empty( $args['help'] ) ) {
+			$field .= '<p class="description">' . esc_html( $args['help'] ) . '</p>';
 		}
 
 		// Echo it if requested.

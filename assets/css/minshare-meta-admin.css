@@ -3,34 +3,41 @@
 	max-width: 880px;
 }
 
-.minshare-meta-settings-page-wrap form .form-table th {
+.minshare-meta-settings-page-wrap form .form-table th,
+.minshare-meta-table-wrap th {
 	width: 160px;
 }
 
-.minshare-meta-settings-page-wrap input.upload-field {
+.minshare-meta-settings-page-wrap input.upload-field,
+.minshare-meta-table-wrap input.upload-field {
+
 	width: 520px;
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.minshare-meta-settings-page-wrap .upload-button {
+.minshare-meta-settings-page-wrap .upload-button,
+.minshare-meta-table-wrap .upload-button {
 	margin-left: 6px;
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.minshare-meta-settings-page-wrap .minshare-meta-setting-radio-item {
+.minshare-meta-settings-page-wrap .minshare-meta-setting-radio-item,
+.minshare-meta-table-wrap .minshare-meta-setting-radio-item {
 	width: 100%;
 	display: block;
 	height: 24px;
 	margin-bottom: 3px;
 }
 
-.minshare-meta-settings-page-wrap .minshare-meta-setting-radio-item input {
+.minshare-meta-settings-page-wrap .minshare-meta-setting-radio-item input,
+.minshare-meta-table-wrap .minshare-meta-setting-radio-item input {
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.minshare-meta-settings-page-wrap .minshare-meta-setting-radio-item label {
+.minshare-meta-settings-page-wrap .minshare-meta-setting-radio-item label,
+.minshare-meta-table-wrap .minshare-meta-setting-radio-item label {
 	margin: 0 0 0 4px;
 }
