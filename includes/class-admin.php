@@ -20,6 +20,7 @@ class MinimumViableMeta_Admin {
 	 */
 	public function init() {
 		add_action( 'admin_enqueue_scripts',        array( $this, 'load_admin_assets'       ),  10      );
+		add_filter( 'admin_footer_text',            array( $this, 'admin_footer_text'            )           );
 	}
 
 	/**
@@ -65,6 +66,39 @@ class MinimumViableMeta_Admin {
 		}
 	}
 
+	/**
+	 * Add attribution link to settings page.
+	 *
+	 * @param  string $text  The existing footer text.
+	 *
+	 * @return string $text  The modified footer text.
+	 */
+	public function admin_footer_text( $text ) {
+
+		// Bail without the screen object function.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return $text;
+		}
+
+		// Fetch current screen object.
+		$screen = get_current_screen();
+
+		// Bail if we aren't on the right part, or the screen object is fucked.
+		if ( ! is_object( $screen ) || empty( $screen->base ) ) {
+			return $text;
+		}
+
+		// We fit the requirement, so let's do it.
+		if ( 'appearance_page_minshare-meta-settings' !== $screen->base ) {
+			return $text;
+		}
+
+		// Set my GitHub text.
+		$ghtext = sprintf( __( 'You can view this plugin and submit issues on <a target="_blank" href="%s">GitHub</a>.', 'minimum-viable-sharing-meta' ), esc_url( 'https://github.com/norcross/minimum-viable-sharing-meta' ) );
+
+		// Set our footer link with GA campaign tracker.
+		return $text . '&nbsp;&nbsp;<span id="footer-ghlink">' . $ghtext . '</span>';
+	}
 
 	// End our class.
 }

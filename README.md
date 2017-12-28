@@ -1,5 +1,5 @@
 # Minimum Viable Sharing Meta
-Just the required meta tags
+Just the minimum required meta tags to work.
 
 ## Requirements
 

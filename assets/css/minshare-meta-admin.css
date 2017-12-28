@@ -41,3 +41,10 @@
 .minshare-meta-table-wrap .minshare-meta-setting-radio-item label {
 	margin: 0 0 0 4px;
 }
+
+
+span#footer-ghlink {}
+
+span#footer-ghlink a {
+	font-weight: 600;
+}

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Minimum Viable Sharing Meta
  * Plugin URI:  https://github.com/norcross/minimum-viable-sharing-meta
- * Description: Just the required meta tags
+ * Description: Just the minimum required meta tags to work.
  * Version:     0.0.1
  * Author:      Andrew Norcross
  * Author URI:  http://andrewnorcross.com
