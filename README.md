@@ -4,7 +4,7 @@ Just the minimum required meta tags to work.
 ## Requirements
 
 * PHP version 5.6 or higher
-* WordPress version 4.7 or higher
+* WordPress version 4.9 or higher
 
 ## Usage
 
