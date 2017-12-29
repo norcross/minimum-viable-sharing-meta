@@ -6,6 +6,7 @@ Tags: meta tags, sharing tags
 Requires at least: 4.9
 Tested up to: 4.9
 Stable tag: 0.0.1
+Requires PHP: 5.6
 License: MIT
 License URI: http://norcross.mit-license.org/
 
