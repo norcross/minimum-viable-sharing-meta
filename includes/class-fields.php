@@ -21,7 +21,7 @@ class MinimumViableMeta_Fields {
 	public static function get_fields_group() {
 
 		// Our field groupings.
-		return array(
+		$fields = array(
 
 			// The title field.
 			'title' => array(
@@ -31,6 +31,7 @@ class MinimumViableMeta_Fields {
 				'name'  => 'minshare_meta_defaults[title]',
 				'fname' => __( 'Title', 'minimum-viable-sharing-meta' ),
 				'class' => 'minshare-meta-title-field',
+				'more'  => 'https://moz.com/learn/seo/title-tag',
 			),
 
 			// The description field.
@@ -41,6 +42,7 @@ class MinimumViableMeta_Fields {
 				'name'  => 'minshare_meta_defaults[desc]',
 				'fname' => __( 'Description', 'minimum-viable-sharing-meta' ),
 				'class' => 'minshare-meta-desc-field',
+				'more'  => 'https://moz.com/learn/seo/meta-description',
 			),
 
 			// The image field.
@@ -68,6 +70,9 @@ class MinimumViableMeta_Fields {
 				'class' => 'minshare-meta-card-field',
 			),
 		);
+
+		// Return our array.
+		return apply_filters( 'minshare_meta_field_groups', $fields );
 	}
 
 	/**
@@ -77,7 +82,7 @@ class MinimumViableMeta_Fields {
 	 * @param  mixed   $value  The current value of the field (if any).
 	 * @param  boolean $echo   Whether to echo the field or return it.
 	 *
-	 * @return  HTML
+	 * @return HTML
 	 */
 	public static function text_field( $args = array(), $value, $echo = false ) {
 
@@ -102,7 +107,7 @@ class MinimumViableMeta_Fields {
 		$field  = '';
 
 		// Build the field type.
-		$field .= '<input type="' . esc_attr( $type ) . '" class="widefat" value="' . esc_attr( $value ) . '" id="' . esc_attr( $args['id'] ) . '"';
+		$field .= '<input type="' . esc_attr( $type ) . '" class="widefat" value="' . esc_attr( $value ) . '" id="' . esc_attr( $args['id'] ) . '" autocomplete="off" ';
 
 		// Check for name.
 		if ( ! empty( $args['name'] ) ) {
@@ -131,6 +136,16 @@ class MinimumViableMeta_Fields {
 			$field .= '<label class="field-label" for="' . esc_attr( $args['id'] ) . '">' . esc_html( $args['label'] ) . '</label>';
 		}
 
+		// If this is a title field, output the character counter.
+		if ( ! empty( $args['key'] ) && 'title' === esc_attr( $args['key'] ) ) {
+
+			// Check for the "more" item.
+			$more   = ! empty( $args['more'] ) ? $args['more'] : false;
+
+			// Show the field.
+			$field .= self::show_character_count( $value, 'title', $more );
+		}
+
 		// Echo it if requested.
 		if ( ! empty( $echo ) ) {
 			echo $field;
@@ -147,7 +162,7 @@ class MinimumViableMeta_Fields {
 	 * @param  mixed   $value  The current value of the field (if any).
 	 * @param  boolean $echo   Whether to echo the field or return it.
 	 *
-	 * @return  HTML
+	 * @return HTML
 	 */
 	public static function textarea_field( $args = array(), $value, $echo = false ) {
 
@@ -168,7 +183,7 @@ class MinimumViableMeta_Fields {
 		$field  = '';
 
 		// Build the field type.
-		$field .= '<textarea class="widefat" id="' . esc_attr( $args['id'] ) . '"';
+		$field .= '<textarea class="widefat field-textarea" id="' . esc_attr( $args['id'] ) . '"';
 
 		// Check for name.
 		if ( ! empty( $args['name'] ) ) {
@@ -192,6 +207,16 @@ class MinimumViableMeta_Fields {
 			$field .= '<label class="field-label" for="' . esc_attr( $args['id'] ) . '">' . esc_html( $args['label'] ) . '</label>';
 		}
 
+		// If this is a desc field, output the character counter.
+		if ( ! empty( $args['key'] ) && 'desc' === esc_attr( $args['key'] ) ) {
+
+			// Check for the "more" item.
+			$more   = ! empty( $args['more'] ) ? $args['more'] : false;
+
+			// And output the field.
+			$field .= self::show_character_count( $value, 'desc', $more );
+		}
+
 		// Echo it if requested.
 		if ( ! empty( $echo ) ) {
 			echo $field;
@@ -208,7 +233,7 @@ class MinimumViableMeta_Fields {
 	 * @param  mixed   $value  The current value of the field (if any).
 	 * @param  boolean $echo   Whether to echo the field or return it.
 	 *
-	 * @return  HTML
+	 * @return HTML
 	 */
 	public static function media_upload_field( $args = array(), $value, $echo = false ) {
 
@@ -279,7 +304,7 @@ class MinimumViableMeta_Fields {
 	 * @param  mixed   $value  The current value of the field (if any).
 	 * @param  boolean $echo   Whether to echo the field or return it.
 	 *
-	 * @return  HTML
+	 * @return HTML
 	 */
 	public static function radio_field( $args = array(), $value, $echo = false ) {
 
@@ -364,6 +389,48 @@ class MinimumViableMeta_Fields {
 
 		// Just return it.
 		return $field;
+	}
+
+	/**
+	 * Add the character count item to a field.
+	 *
+	 * @param  string  $value  The current field value.
+	 * @param  string  $field  Which field we are on (for classes).
+	 * @param  boolean $more   Whether to show the "more" link.
+	 *
+	 * @return HTML
+	 */
+	public static function show_character_count( $value = '', $field = 'title', $more = false ) {
+
+		// Get my current character count.
+		$count  = strlen( $value );
+
+		// Fetch my limit.
+		$limit  = minshare_meta()->max_field_length( $field );
+
+		// Get my count class.
+		$class  = 'current-count current-' . esc_attr( $field ) . '-count';
+		$class .= absint( $count ) > absint( $limit ) ? ' current-count-over' : '';
+
+		// Set my empty.
+		$build  = '';
+
+		// Open the paragraph.
+		$build .= '<p class="description field-character-count-wrap ' . esc_attr( $field ) . '-character-count-wrap">';
+
+			// And output the amount.
+			$build .= sprintf( __( 'You have used %s of the maximum recommended %d characters.', 'minimum-viable-sharing-meta' ), '<span class="' . esc_attr( $class ) . '">' . absint( $count ) . '</span>', absint( $limit ) );
+
+			// Add a "learn more" if asked.
+			if ( ! empty( $more ) ) {
+				$build .= '<span class="field-learn-more">' . sprintf( __( '<a target="_blank" href="%s">Click here</a> to learn more.', 'minimum-viable-sharing-meta' ), esc_url( $more ) ) . '</span>';
+			}
+
+		// Close the paragraph.
+		$build .= '</p>';
+
+		// Return the field.
+		return $build;
 	}
 
 	// End our class.

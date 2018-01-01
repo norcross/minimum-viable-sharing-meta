@@ -40,8 +40,6 @@ class MinimumViableMeta_Settings {
 			return;
 		}
 
-		// preprint( $fields, true );
-
 		// Create the general settings section.
 		add_settings_section(
 			'minshare-meta-default-settings-section',
@@ -92,7 +90,7 @@ class MinimumViableMeta_Settings {
 	public static function view_default_settings() {
 
 		// Handle the form wrap.
-		echo '<div class="wrap minshare-meta-settings-page-wrap">';
+		echo '<div class="wrap minshare-meta-data-input-wrap minshare-meta-settings-page-wrap">';
 
 			// Output the title.
 			echo '<h1 class="minshare-meta-settings-title">' . get_admin_page_title() . '</h1>';

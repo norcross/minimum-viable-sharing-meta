@@ -33,7 +33,7 @@ class MinimumViableMeta_Display {
 		// Our before action for everything.
 		do_action( 'minshare_meta_before_tag_output' );
 
-		// Handle front and blog pages.
+		// Handle front, blog, and singular pages.
 		if ( is_home() || is_front_page() || is_singular( minshare_meta()->supported_types() ) ) {
 
 			// Figure out if I have a post ID.
@@ -42,8 +42,10 @@ class MinimumViableMeta_Display {
 			// Get the canonical link.
 			$link   = is_singular() ? wp_get_canonical_url( $the_id ) : home_url( '/' );
 
-			// Fetch our tags.
-			$tags	= MinimumViableMeta_Helper::get_single_tags( $the_id );
+			// Fetch our tags and bail if we don't have any.
+			if ( false === $tags = MinimumViableMeta_Helper::get_single_tags( $the_id ) ) {
+				return;
+			}
 
 			// First check for a featured image if none was set.
 			if ( is_singular() && empty( $tags['image'] ) ) {
@@ -93,9 +95,9 @@ class MinimumViableMeta_Display {
 	/**
 	 * Filter our title text.
 	 *
-	 * @param  string $title  Our current page title
+	 * @param  array $title  Our current page title
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function load_title_tag( $title ) {
 
@@ -110,8 +112,10 @@ class MinimumViableMeta_Display {
 			// Figure out if I have a post ID.
 			$the_id = is_singular() ? get_the_ID() : 0;
 
-			// And set the title.
-			$title['title'] = MinimumViableMeta_Helper::get_single_tags( $the_id, 'title' );
+			// Check for a saved meta title and update the array if we have it.
+			if ( false !== $custom = MinimumViableMeta_Helper::get_single_tags( $the_id, 'title' ) ) {
+				$title['title'] = esc_attr( $custom );
+			}
 		}
 
 		// Return our original item.

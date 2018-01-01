@@ -3,7 +3,7 @@
  * Plugin Name: Minimum Viable Sharing Meta
  * Plugin URI:  https://github.com/norcross/minimum-viable-sharing-meta
  * Description: Just the minimum required meta tags to work.
- * Version:     0.0.1
+ * Version:     0.0.2
  * Author:      Andrew Norcross
  * Author URI:  http://andrewnorcross.com
  * Text Domain: minimum-viable-sharing-meta
@@ -38,7 +38,7 @@ final class MinimumViableMeta_Core {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '0.0.1';
+	private $version = '0.0.2';
 
 	/**
 	 * If an instance exists, this returns it.  If not, it creates one and
@@ -90,7 +90,7 @@ final class MinimumViableMeta_Core {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'minimum-viable-sharing-meta' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'minimum-viable-sharing-meta' ), '0.0.1' );
 	}
 
 	/**
@@ -102,7 +102,7 @@ final class MinimumViableMeta_Core {
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'minimum-viable-sharing-meta' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'minimum-viable-sharing-meta' ), '0.0.1' );
 	}
 
 	/**
@@ -147,6 +147,16 @@ final class MinimumViableMeta_Core {
 		// Set our assets directory constant.
 		if ( ! defined( 'MINSHARE_META_ASSETS_URL' ) ) {
 			define( 'MINSHARE_META_ASSETS_URL', MINSHARE_META_URL . 'assets' );
+		}
+
+		// Set what our options table key will be.
+		if ( ! defined( 'MINSHARE_META_OPTIONKEY' ) ) {
+			define( 'MINSHARE_META_OPTIONKEY', 'minshare_meta_defaults' );
+		}
+
+		// Set what our post meta key will be.
+		if ( ! defined( 'MINSHARE_META_POSTKEY' ) ) {
+			define( 'MINSHARE_META_POSTKEY', '_minshare_meta_single' );
 		}
 
 		// Set our version constant.
@@ -238,6 +248,38 @@ final class MinimumViableMeta_Core {
 	}
 
 	/**
+	 * Delete all the post meta related to the plugin.
+	 *
+	 * @return void
+	 */
+	public function delete_post_meta() {
+
+		// Call global DB class.
+		global $wpdb;
+
+		// Set our table.
+		$table  = $wpdb->postmeta;
+
+		// Confirm the table exists before running any updates.
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) !== $table ) {
+			return false;
+		}
+
+		// Prepare my query.
+		$setup  = $wpdb->prepare("
+			DELETE FROM $table
+			WHERE meta_key = %s",
+			esc_sql( MINSHARE_META_POSTKEY )
+		);
+
+		// Run SQL query.
+		$query = $wpdb->query( $setup );
+
+		// And be done.
+		return;
+	}
+
+	/**
 	 * Sets our user role capability.
 	 *
 	 * @return string
@@ -253,6 +295,47 @@ final class MinimumViableMeta_Core {
 	 */
 	public function supported_types() {
 		return apply_filters( 'minshare_meta_supported_types', array( 'post', 'page' ) );
+	}
+
+	/**
+	 * Returns the maximum character limit for titles.
+	 *
+	 * @return integer
+	 */
+	public function max_title_length() {
+		return apply_filters( 'minshare_meta_max_title_length', 50 );
+	}
+
+	/**
+	 * Returns the maximum character limit for description.
+	 *
+	 * @return integer
+	 */
+	public function max_description_length() {
+		return apply_filters( 'minshare_meta_max_description_length', 300 );
+	}
+
+	/**
+	 * Returns the maximum character limit for one of the fields.
+	 *
+	 * @return integer
+	 */
+	public function max_field_length( $field = '' ) {
+
+		// Handle my different field types.
+		switch ( esc_attr( $field ) ) {
+
+			case 'title' :
+				return $this->max_title_length();
+				break;
+
+			case 'desc' :
+				return $this->max_description_length();
+				break;
+		}
+
+		// Include the action to send something else back.
+		do_action( 'minshare_meta_max_field_length', $field );
 	}
 
 	// End our class.

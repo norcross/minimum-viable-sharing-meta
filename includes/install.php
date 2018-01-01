@@ -19,7 +19,7 @@ function minshare_meta_install() {
 	$setup  = apply_filters( 'minshare_meta_default_values', $setup );
 
 	// Now store the data.
-	update_option( 'minshare_meta_defaults', $setup, 'no' );
+	update_option( MINSHARE_META_OPTIONKEY, $setup, 'no' );
 
 	// Allow for others to hook in.
 	do_action( 'minshare_meta_install_process' );

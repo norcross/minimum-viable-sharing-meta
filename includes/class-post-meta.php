@@ -14,11 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class MinimumViableMeta_PostMeta {
 
 	/**
-	 * The meta key used to store.
-	 */
-	public static $meta_key = '_minshare_meta_single';
-
-	/**
 	 * Call our hooks.
 	 *
 	 * @return void
@@ -61,13 +56,13 @@ class MinimumViableMeta_PostMeta {
 		}
 
 		// Fetch whatever meta we may have.
-		$meta   = get_post_meta( $post->ID, self::$meta_key, true );
+		$meta   = get_post_meta( $post->ID, MINSHARE_META_POSTKEY, true );
 
 		// Our before fields action.
 		do_action( 'minshare_meta_before_metabox_fields', $post );
 
 		// Wrap our meta in a table.
-		echo '<table class="form-table minshare-meta-table-wrap">';
+		echo '<table class="form-table minshare-meta-data-input-wrap minshare-meta-table-wrap">';
 		echo '<tbody>';
 
 		// Loop my fields.
@@ -144,6 +139,9 @@ class MinimumViableMeta_PostMeta {
 				return MinimumViableMeta_Fields::radio_field( $field, $value );
 				break;
 		}
+
+		// Our after fields action.
+		do_action( 'minshare_meta_single_meta_field', $type, $field, $value );
 	}
 
 	/**
@@ -189,7 +187,7 @@ class MinimumViableMeta_PostMeta {
 		$meta   = ! empty( $_POST['minshare_meta_defaults'] ) ? MinimumViableMeta_Helper::array_sanitize( $_POST['minshare_meta_defaults'] ) : '';
 
 		// And update the meta.
-		update_post_meta( $post_id, self::$meta_key, $meta );
+		update_post_meta( $post_id, MINSHARE_META_POSTKEY, $meta );
 	}
 
 	// End our class.

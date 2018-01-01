@@ -5,7 +5,7 @@ Donate link: http://andrewnorcross.com/donate
 Tags: meta tags, sharing tags
 Requires at least: 4.9
 Tested up to: 4.9
-Stable tag: 0.0.1
+Stable tag: 0.0.2
 Requires PHP: 5.6
 License: MIT
 License URI: http://norcross.mit-license.org/
@@ -32,11 +32,15 @@ This section describes how to install the plugin and get it working.
 
 = What's this all about? =
 
-Meta tags are a pain. And there are a lot of them.
+Meta tags are a pain. And there are a lot of them. So this plugins boils it down to just the minimum tags required to "work".
 
 = How do I use this? =
 
-See the installation.
+See the installation instructions.
+
+= Is this really all of them? =
+
+I would suggest reading [this blog post](http://www.phpied.com/minimum-viable-sharing-meta-tags/) written by [Stoyan Stefanov](http://www.phpied.com/bio/) if you're curious.
 
 = Can I customize it? =
 
@@ -52,6 +56,12 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 = 0.0.1 - 2017/12/28 =
 * First release!
+
+
+= 0.0.2 - 2018/01/01 =
+* added character count warnings for titles and descriptions
+* introducted the `minshare_meta_use_default_tags` filter to use default values when tags for singular content has not been entered. The default is `false`.
+* added the `MINSHARE_META_POSTKEY` and `MINSHARE_META_OPTIONKEY` constants to use in the entire plugin.
 
 
 == Upgrade Notice ==

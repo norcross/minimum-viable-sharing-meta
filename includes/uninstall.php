@@ -8,10 +8,10 @@
 function minshare_meta_uninstall() {
 
 	// First, delete my default settings.
-	delete_option( 'minshare_meta_defaults' );
+	delete_option( MINSHARE_META_OPTIONKEY );
 
 	// This will be the function to delete any individual post meta.
-	// MY_COOL_RAD_META_DELETE_FUNCTION
+	minshare_meta()->delete_post_meta();
 
 	// Include our action so that we may add to this later.
 	do_action( 'minshare_meta_uninstall_process' );
