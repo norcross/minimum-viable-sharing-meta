@@ -10,6 +10,10 @@ Just the minimum required meta tags to work.
 
 After installing and activating the plugin, navigate to the "Sharing Meta Tags" menu item underneath the "Appearance" main tab. Update the fields with the data you'd like. You can also edit them in individually on posts, pages, or other enabled post types.
 
+## Converting Data
+
+There are buttons at the bottom of the main settings page to copy any metadata from Yoast SEO or All In One SEO Pack. The `minshare_meta_plugin_convert_keys` filter allows you to modify which plugins are checked for.
+
 ## Changelog
 See [CHANGES.md](CHANGES.md).
 
