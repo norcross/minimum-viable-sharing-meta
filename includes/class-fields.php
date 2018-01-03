@@ -237,8 +237,6 @@ class MinimumViableMeta_Fields {
 	 */
 	public static function media_upload_field( $args = array(), $value, $echo = false ) {
 
-		// preprint( $args, true );
-
 		// Set my default args.
 		$base   = array(
 			'id'    => wp_generate_password( 8, false, false ),

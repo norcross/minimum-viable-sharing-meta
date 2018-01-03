@@ -65,6 +65,16 @@
 	line-height: 16px;
 }
 
+.minshare-meta-convert-wrap p {
+	margin-top: 0;
+}
+
+.minshare-meta-convert-wrap .minshare-meta-convert-buttons-wrap {}
+
+.minshare-meta-convert-wrap .minshare-meta-convert-buttons-wrap a {
+	margin: 0 10px 0 0;
+}
+
 
 span#footer-ghlink {}
 

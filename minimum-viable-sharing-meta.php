@@ -3,7 +3,7 @@
  * Plugin Name: Minimum Viable Sharing Meta
  * Plugin URI:  https://github.com/norcross/minimum-viable-sharing-meta
  * Description: Just the minimum required meta tags to work.
- * Version:     0.0.2
+ * Version:     0.0.3
  * Author:      Andrew Norcross
  * Author URI:  http://andrewnorcross.com
  * Text Domain: minimum-viable-sharing-meta
@@ -38,7 +38,7 @@ final class MinimumViableMeta_Core {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '0.0.2';
+	private $version = '0.0.3';
 
 	/**
 	 * If an instance exists, this returns it.  If not, it creates one and
@@ -248,6 +248,85 @@ final class MinimumViableMeta_Core {
 	}
 
 	/**
+	 * Handle our fancy meta key conversion.
+	 *
+	 * @param  string $source  The source plugin we want to convert.
+	 *
+	 * @return boolean
+	 */
+	public function convert_post_meta( $source = '', $allmeta = array() ) {
+
+		// Bail without a source.
+		if ( empty( $source ) ) {
+			return false;
+		}
+
+		// Fetch my items related to this source.
+		if ( false === $items = $this->plugin_convert_keys( 0, $source ) ) {
+			return false;
+		}
+
+		// Remove the name key.
+		unset( $items['name'] );
+
+		// Call global DB class.
+		global $wpdb;
+
+		// Set our table.
+		$table  = $wpdb->postmeta;
+
+		// Confirm the table exists before running any updates.
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) !== $table ) {
+			return;
+		}
+
+		// Now loop the items.
+		foreach ( $items as $type => $metakey ) {
+
+			// Prepare my query.
+			$query  = $wpdb->prepare("
+				SELECT post_id
+				FROM $table
+				WHERE meta_key = %s",
+				esc_sql( $metakey )
+			);
+
+			// Run SQL query.
+			$theids = $wpdb->get_col( $query );
+
+			// Bail if nothing comes back.
+			if ( empty( $theids ) ) {
+				continue;
+			}
+
+			// Loop my IDs.
+			foreach ( $theids as $id ) {
+
+				// Pull my value out.
+				$value  = get_post_meta( $id, $metakey, true );
+
+				// And now add our ID'd array.
+				$allmeta[ $id ][ $type ] = $value;
+			}
+		}
+
+		// Bail with no meta data.
+		if ( empty( $allmeta ) ) {
+			return false;
+		}
+
+		// Now, one more loop and updating some meta.
+		foreach ( $allmeta as $post_id => $metadata ) {
+
+			// Sanitize our data.
+			$update = MinimumViableMeta_Helper::array_sanitize( $metadata );
+
+			// Update the post meta.
+			update_post_meta( $post_id, MINSHARE_META_POSTKEY, $update );
+		}
+	}
+
+	/**
 	 * Delete all the post meta related to the plugin.
 	 *
 	 * @return void
@@ -336,6 +415,42 @@ final class MinimumViableMeta_Core {
 
 		// Include the action to send something else back.
 		do_action( 'minshare_meta_max_field_length', $field );
+	}
+
+	/**
+	 * Set the keys from the plugins we wanna convert.
+	 *
+	 * @param  boolean $keys    Whether we want the array keys or everything.
+	 * @param  string  $source  A single source.
+	 *
+	 * @return array
+	 */
+	public function plugin_convert_keys( $keys = false, $source = '' ) {
+
+		// Set my array of plugins and their keys.
+		$items  = array(
+			'yoast'     => array(
+				'name'  => __( 'Yoast SEO', 'minimum-viable-sharing-meta' ),
+				'title' => '_yoast_wpseo_title',
+				'desc'  => '_yoast_wpseo_metadesc',
+			),
+			'aioseo'    => array(
+				'name'  => __( 'All In One SEO Pack', 'minimum-viable-sharing-meta' ),
+				'title' => '_aioseop_title',
+				'desc'  => '_aioseop_description',
+			),
+		);
+
+		// Return our setup.
+		$items  = apply_filters( 'minshare_meta_plugin_convert_keys', $items );
+
+		// We requested a single source.
+		if ( ! empty( $source ) ) {
+			return isset( $items[ $source ] ) ? $items[ $source ] : false;
+		}
+
+		// Return the keys, or the entire thing.
+		return ! empty( $keys ) ? array_keys( $items ) : $items;
 	}
 
 	// End our class.

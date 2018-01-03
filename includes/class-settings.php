@@ -89,6 +89,9 @@ class MinimumViableMeta_Settings {
 	 */
 	public static function view_default_settings() {
 
+		// Fire the before action.
+		do_action( 'minshare_meta_before_settings_page' );
+
 		// Handle the form wrap.
 		echo '<div class="wrap minshare-meta-data-input-wrap minshare-meta-settings-page-wrap">';
 
@@ -97,6 +100,9 @@ class MinimumViableMeta_Settings {
 
 			// The error handler.
 			settings_errors();
+
+			// Handle the before action on the form itself.
+			do_action( 'minshare_meta_before_settings_form' );
 
 			// And the actual form.
 			echo '<form method="post" action="options.php">';
@@ -110,11 +116,20 @@ class MinimumViableMeta_Settings {
 				// Add our submit button.
 				submit_button();
 
+				// Handle the after action inside the form itself.
+				do_action( 'minshare_meta_after_settings_submit' );
+
 			// Close the form.
 			echo '</form>';
 
+			// Handle the after action for the form itself.
+			do_action( 'minshare_meta_after_settings_form' );
+
 		// Close the div.
 		echo '</div>';
+
+		// Fire the after action.
+		do_action( 'minshare_meta_after_settings_page' );
 	}
 
 	/**

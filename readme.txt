@@ -5,7 +5,7 @@ Donate link: http://andrewnorcross.com/donate
 Tags: meta tags, sharing tags
 Requires at least: 4.9
 Tested up to: 4.9
-Stable tag: 0.0.2
+Stable tag: 0.0.3
 Requires PHP: 5.6
 License: MIT
 License URI: http://norcross.mit-license.org/
@@ -63,5 +63,8 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 * introducted the `minshare_meta_use_default_tags` filter to use default values when tags for singular content has not been entered. The default is `false`.
 * added the `MINSHARE_META_POSTKEY` and `MINSHARE_META_OPTIONKEY` constants to use in the entire plugin.
 
+
+= 0.0.3 - 2018/01/02 =
+* added metadata conversion for Yoast SEO and All In One SEO Pack.
 
 == Upgrade Notice ==
