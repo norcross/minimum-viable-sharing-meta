@@ -439,6 +439,11 @@ final class MinimumViableMeta_Core {
 				'title' => '_aioseop_title',
 				'desc'  => '_aioseop_description',
 			),
+			'genesis'   => array(
+				'name'  => __( 'Genesis Theme Framework', 'minimum-viable-sharing-meta' ),
+				'title' => '_genesis_title',
+				'desc'  => '_genesis_description',
+			),
 		);
 
 		// Return our setup.
