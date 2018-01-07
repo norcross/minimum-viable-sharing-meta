@@ -19,8 +19,9 @@ class MinimumViableMeta_PostMeta {
 	 * @return void
 	 */
 	public function init() {
-		add_action( 'add_meta_boxes',               array( $this, 'load_metabox'            ),  11      );
-		add_action( 'save_post',                    array( $this, 'save_post_meta'          )           );
+		add_action( 'add_meta_boxes',               				array( $this, 'load_metabox'            ),  11      );
+		add_action( 'save_post',                    				array( $this, 'save_post_meta'          )           );
+		add_action( 'minshare_meta_after_metabox_fields',   array( $this, 'add_debug_links' 				)           );
 	}
 
 	/**
@@ -39,6 +40,28 @@ class MinimumViableMeta_PostMeta {
 
 		// Now add the box.
 		add_meta_box( 'minshare-meta-metabox', __( 'Sharing Meta Tags', 'minimum-viable-sharing-meta' ), array( __class__, 'display_metabox' ), $post_type, 'advanced', 'high' );
+	}
+
+	/**
+	 * Add Facebook and TWitter debug/scrape links
+	 *
+	 * @todo Structured Data for Google+. The current version of SD isn't useful for non-developers
+	 * @return void
+	 */
+	public function add_debug_links() {
+
+		// Start with a fresh div
+		echo '<div class="minshare-meta-debug-links">';
+
+			// Add a label
+			echo '<h3>' . esc_html__( 'Debug', 'minimum-viable-sharing-meta' ) . '</h3>';
+
+			$permalink = get_permalink();
+
+			echo '<p>After saving the post, it is recommended to scrape/refresh it on <a href="//developers.facebook.com/tools/debug/sharing/?q=' . esc_url( $permalink ) . '" target="_blank">Facebook</a> and <a href="//cards-dev.twitter.com/validator" target="_blank">Twitter</a>. This ensures that the data is up to date, and also updates existing shared posts.';
+
+		// Close the div.
+		echo '</div>';
 	}
 
 	/**
