@@ -109,7 +109,7 @@ class MinimumViableMeta_Admin {
 
 			// Set our two file names.
 			$file_c = MINSHARE_META_ASSETS_URL . '/css/' . $name . '.css';
-			$file_j = MINSHARE_META_ASSETS_URL . '/css/' . $name . '.css';
+			$file_j = MINSHARE_META_ASSETS_URL . '/js/' . $name . '.js';
 
 			// Load our CSS file.
 			wp_enqueue_style( 'minshare-meta-admin', esc_url( $file_c ), false, $vers, 'all' );
