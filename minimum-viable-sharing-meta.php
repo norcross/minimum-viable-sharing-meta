@@ -3,7 +3,7 @@
  * Plugin Name: Minimum Viable Sharing Meta
  * Plugin URI:  https://github.com/norcross/minimum-viable-sharing-meta
  * Description: Just the minimum required meta tags to work.
- * Version:     0.0.3
+ * Version:     0.0.4
  * Author:      Andrew Norcross
  * Author URI:  http://andrewnorcross.com
  * Text Domain: minimum-viable-sharing-meta
@@ -38,7 +38,7 @@ final class MinimumViableMeta_Core {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '0.0.3';
+	private $version = '0.0.4';
 
 	/**
 	 * If an instance exists, this returns it.  If not, it creates one and
@@ -206,7 +206,7 @@ final class MinimumViableMeta_Core {
 		$lang_dir = dirname( plugin_basename( MINSHARE_META_FILE ) ) . '/languages/';
 
 		/**
-		 * Filters the languages directory path to use for LiquidWebKB.
+		 * Filters the languages directory path to use for MinimumViableMeta.
 		 *
 		 * @param string $lang_dir The languages directory path.
 		 */
@@ -223,7 +223,7 @@ final class MinimumViableMeta_Core {
 		}
 
 		/**
-		 * Defines the plugin language locale used in LiquidWebKB.
+		 * Defines the plugin language locale used in MinimumViableMeta.
 		 *
 		 * @var $get_locale The locale to use. Uses get_user_locale()` in WordPress 4.7 or greater,
 		 *                  otherwise uses `get_locale()`.
@@ -233,13 +233,13 @@ final class MinimumViableMeta_Core {
 
 		// Setup paths to current locale file.
 		$mofile_local  = $lang_dir . $mofile;
-		$mofile_global = WP_LANG_DIR . '/liquidweb-kb-admin/' . $mofile;
+		$mofile_global = WP_LANG_DIR . '/minimum-viable-sharing-meta/' . $mofile;
 
 		if ( file_exists( $mofile_global ) ) {
-			// Look in global /wp-content/languages/liquidweb-kb-admin/ folder
+			// Look in global /wp-content/languages/minimum-viable-sharing-meta/ folder
 			load_textdomain( 'minimum-viable-sharing-meta', $mofile_global );
 		} elseif ( file_exists( $mofile_local ) ) {
-			// Look in local /wp-content/plugins/liquidweb-kb-admin/languages/ folder
+			// Look in local /wp-content/plugins/minimum-viable-sharing-meta/languages/ folder
 			load_textdomain( 'minimum-viable-sharing-meta', $mofile_local );
 		} else {
 			// Load the default language files.

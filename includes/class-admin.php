@@ -108,19 +108,20 @@ class MinimumViableMeta_Admin {
 			$vers   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : MINSHARE_META_VERS;
 
 			// Set our two file names.
-			$file_c = MINSHARE_META_ASSETS_URL . '/css/' . $name . '.css';
-			$file_j = MINSHARE_META_ASSETS_URL . '/css/' . $name . '.css';
+			$file_c = MINSHARE_META_ASSETS_URL . '/css/' . esc_attr( $name ) . '.css';
+			$file_j = MINSHARE_META_ASSETS_URL . '/js/' . esc_attr( $name ) . '.js';
 
 			// Load our CSS file.
 			wp_enqueue_style( 'minshare-meta-admin', esc_url( $file_c ), false, $vers, 'all' );
 
+			// Set our array of localized values.
+			$local_user = apply_filters( 'minshare_meta_localized_js_args', array() );
+			$localized  = wp_parse_args( $local_user, array( 'maxTitle' => minshare_meta()->max_title_length(), 'maxDesc' => minshare_meta()->max_description_length() ) );
+
 			// And our JS.
 			wp_enqueue_media();
 			wp_enqueue_script( 'minshare-meta-admin', esc_url( $file_j ), array( 'jquery' ), $vers, true );
-			wp_localize_script( 'minshare-meta-admin', 'minshareMeta', array(
-				'maxTitle'  => minshare_meta()->max_title_length(),
-				'maxDesc'   => minshare_meta()->max_description_length(),
-			));
+			wp_localize_script( 'minshare-meta-admin', 'minshareMeta', $localized );
 
 			// And our action to hook on the end of the script loading.
 			do_action( 'minshare_meta_after_admin_assets' );
