@@ -80,7 +80,7 @@ class MinimumViableMeta_PostMeta {
 			$fname  = ! empty( $field['fname'] ) ? $field['fname'] : '';
 
 			// Check for a value.
-			$value  = ! empty( $meta[ $fkey ] ) ? $meta[ $fkey ] : false;
+			$value  = ! empty( $meta[ $fkey ] ) ? $meta[ $fkey ] : '';
 
 			// And echo out our field.
 			echo '<tr class="' . esc_attr( $class ) . '">';
@@ -124,6 +124,7 @@ class MinimumViableMeta_PostMeta {
 		switch ( esc_attr( $type ) ) {
 
 			case 'text' :
+			case 'url' :
 				return MinimumViableMeta_Fields::text_field( $field, $value );
 				break;
 

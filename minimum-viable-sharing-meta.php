@@ -430,19 +430,22 @@ final class MinimumViableMeta_Core {
 		// Set my array of plugins and their keys.
 		$items  = array(
 			'yoast'     => array(
-				'name'  => __( 'Yoast SEO', 'minimum-viable-sharing-meta' ),
-				'title' => '_yoast_wpseo_title',
-				'desc'  => '_yoast_wpseo_metadesc',
+				'name'      => __( 'Yoast SEO', 'minimum-viable-sharing-meta' ),
+				'title'     => '_yoast_wpseo_title',
+				'desc'      => '_yoast_wpseo_metadesc',
+				'canonical' => '_yoast_wpseo_canonical',
 			),
 			'aioseo'    => array(
-				'name'  => __( 'All In One SEO Pack', 'minimum-viable-sharing-meta' ),
-				'title' => '_aioseop_title',
-				'desc'  => '_aioseop_description',
+				'name'      => __( 'All In One SEO Pack', 'minimum-viable-sharing-meta' ),
+				'title'     => '_aioseop_title',
+				'desc'      => '_aioseop_description',
+				'canonical' => '_aioseop_custom_link',
 			),
 			'genesis'   => array(
-				'name'  => __( 'Genesis Theme Framework', 'minimum-viable-sharing-meta' ),
-				'title' => '_genesis_title',
-				'desc'  => '_genesis_description',
+				'name'      => __( 'Genesis Theme Framework', 'minimum-viable-sharing-meta' ),
+				'title'     => '_genesis_title',
+				'desc'      => '_genesis_description',
+				'canonical' => '_genesis_canonical_uri',
 			),
 		);
 

@@ -20,6 +20,7 @@ class MinimumViableMeta_Display {
 	 */
 	public function init() {
 		add_action( 'wp_head',                      array( $this, 'load_meta_tags'          )           );
+		add_filter( 'get_canonical_url',            array( $this, 'filter_canonical_url'    ),  10, 2   );
 		add_filter( 'document_title_parts',         array( $this, 'load_title_tag'          ),  88      );
 	}
 
@@ -90,6 +91,28 @@ class MinimumViableMeta_Display {
 
 		// Our after action for everything.
 		do_action( 'minshare_meta_after_tag_output' );
+	}
+
+	/**
+	 * Check for a custom canonical URL and use that.
+	 *
+	 * @param  string  $canonical  The post's canonical URL.
+	 * @param  WP_Post $post       Post object.
+	 *
+	 * @return string
+	 */
+	public function filter_canonical_url( $canonical, $post ) {
+
+		// Check we're on a singular output.
+		if ( ! is_singular( minshare_meta()->supported_types() ) ) {
+			return $canonical;
+		}
+
+		// Check for a stored canonical tag.
+		$stored = MinimumViableMeta_Helper::get_single_tags( $post->ID, 'canonical' );
+
+		// Return a value if we have one, otherwise return what we were passed.
+		return ! empty( $stored ) ? $stored : $canonical;
 	}
 
 	/**
