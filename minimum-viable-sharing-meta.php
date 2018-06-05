@@ -287,9 +287,8 @@ final class MinimumViableMeta_Core {
 			$query  = $wpdb->prepare("
 				SELECT post_id
 				FROM $table
-				WHERE meta_key = %s",
-				esc_sql( $metakey )
-			);
+				WHERE meta_key = %s
+			", esc_sql( $metakey ) );
 
 			// Run SQL query.
 			$theids = $wpdb->get_col( $query );
@@ -347,9 +346,8 @@ final class MinimumViableMeta_Core {
 		// Prepare my query.
 		$setup  = $wpdb->prepare("
 			DELETE FROM $table
-			WHERE meta_key = %s",
-			esc_sql( MINSHARE_META_POSTKEY )
-		);
+			WHERE meta_key = %s
+		", esc_sql( MINSHARE_META_POSTKEY ) );
 
 		// Run SQL query.
 		$query = $wpdb->query( $setup );
@@ -434,6 +432,7 @@ final class MinimumViableMeta_Core {
 				'title'     => '_yoast_wpseo_title',
 				'desc'      => '_yoast_wpseo_metadesc',
 				'canonical' => '_yoast_wpseo_canonical',
+				'image'     => '_yoast_wpseo_opengraph-image',
 			),
 			'aioseo'    => array(
 				'name'      => __( 'All In One SEO Pack', 'minimum-viable-sharing-meta' ),
