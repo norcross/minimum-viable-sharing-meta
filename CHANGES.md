@@ -1,3 +1,5 @@
+#### Version 0.0.5 - 2018/06/05
+* added canonical URL field. props @dryan for the suggestion.
 
 #### Version 0.0.4 - 2018/01/08
 * fixed incorrect admin file loading. props @raajtram.

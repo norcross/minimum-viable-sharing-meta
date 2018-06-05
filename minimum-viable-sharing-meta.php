@@ -38,7 +38,7 @@ final class MinimumViableMeta_Core {
 	 * @since  1.0
 	 * @var    string
 	 */
-	private $version = '0.0.4';
+	private $version = '0.0.5';
 
 	/**
 	 * If an instance exists, this returns it.  If not, it creates one and

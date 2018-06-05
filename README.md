@@ -19,6 +19,7 @@ See [CHANGES.md](CHANGES.md).
 
 ### To Do
 * include term / archive pages
+* check Yoast / AIOSEO / Genesis for other convertable tags.
 
 ### Notes
 The source / inspiration for this plugin came from [this blog post](http://www.phpied.com/minimum-viable-sharing-meta-tags/) written by [Stoyan Stefanov](http://www.phpied.com/bio/) 
