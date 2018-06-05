@@ -58,6 +58,7 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 = 0.0.5 - 2018/06/05 =
 * added canonical URL field. props @dryan for the suggestion.
+* included image meta tags from Yoast SEO in conversion function.
 
 = 0.0.4 - 2018/01/08 =
 * fixed incorrect admin file loading. props @raajtram.
