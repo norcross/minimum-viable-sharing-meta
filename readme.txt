@@ -4,8 +4,8 @@ Website Link: https://github.com/norcross/minimum-viable-sharing-meta
 Donate link: http://andrewnorcross.com/donate
 Tags: meta tags, sharing tags
 Requires at least: 4.9
-Tested up to: 4.9
-Stable tag: 0.0.4
+Tested up to: 4.9.6
+Stable tag: 0.0.5
 Requires PHP: 5.6
 License: MIT
 License URI: http://norcross.mit-license.org/
@@ -40,6 +40,8 @@ See the installation instructions.
 
 = Is this really all of them? =
 
+Yes, really.
+
 I would suggest reading [this blog post](http://www.phpied.com/minimum-viable-sharing-meta-tags/) written by [Stoyan Stefanov](http://www.phpied.com/bio/) if you're curious.
 
 = Can I customize it? =
@@ -53,6 +55,10 @@ Yeah. There are filters and whatnot that I'll eventually get around to documenti
 
 
 == Changelog ==
+
+= 0.0.5 - 2018/06/05 =
+* added canonical URL field. props @dryan for the suggestion.
+* included image meta tags from Yoast SEO in conversion function.
 
 = 0.0.4 - 2018/01/08 =
 * fixed incorrect admin file loading. props @raajtram.

@@ -110,6 +110,7 @@ class MinimumViableMeta_Helper {
 			switch ( esc_attr( $k ) ) {
 
 				case 'title' :
+				case 'card' :
 					$output[ $k ] = ! empty( $v ) ? sanitize_text_field( $v ) : '';
 					break;
 
@@ -118,11 +119,8 @@ class MinimumViableMeta_Helper {
 					break;
 
 				case 'image' :
+				case 'canonical' :
 					$output[ $k ] = ! empty( $v ) ? esc_url( $v ) : '';
-					break;
-
-				case 'card' :
-					$output[ $k ] = ! empty( $v ) ? sanitize_text_field( $v ) : '';
 					break;
 
 				default :

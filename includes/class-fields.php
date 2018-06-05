@@ -16,9 +16,11 @@ class MinimumViableMeta_Fields {
 	/**
 	 * Get our array of fields for the settings.
 	 *
+	 * @param  boolean $canonical  Whether or not to show the canonical field.
+	 *
 	 * @return array
 	 */
-	public static function get_fields_group() {
+	public static function get_fields_group( $canonical = true ) {
 
 		// Our field groupings.
 		$fields = array(
@@ -32,6 +34,7 @@ class MinimumViableMeta_Fields {
 				'fname' => __( 'Title', 'minimum-viable-sharing-meta' ),
 				'class' => 'minshare-meta-title-field',
 				'more'  => 'https://moz.com/learn/seo/title-tag',
+				'count' => true,
 			),
 
 			// The description field.
@@ -43,6 +46,7 @@ class MinimumViableMeta_Fields {
 				'fname' => __( 'Description', 'minimum-viable-sharing-meta' ),
 				'class' => 'minshare-meta-desc-field',
 				'more'  => 'https://moz.com/learn/seo/meta-description',
+				'count' => true,
 			),
 
 			// The image field.
@@ -69,7 +73,23 @@ class MinimumViableMeta_Fields {
 				),
 				'class' => 'minshare-meta-card-field',
 			),
+
+			// The canonical field.
+			'canonical' => array(
+				'type'  => 'url',
+				'key'   => 'canonical',
+				'id'    => 'minshare-meta-canonical',
+				'name'  => 'minshare_meta_defaults[canonical]',
+				'fname' => __( 'Canonical URL', 'minimum-viable-sharing-meta' ),
+				'class' => 'minshare-meta-canonical-field',
+				'help'  => sprintf( __( '<a href="%s">Click here</a> to learn more about canonical tags and duplicate content.', 'minimum-viable-sharing-meta' ), 'https://moz.com/learn/seo/duplicate-content' )
+			),
 		);
+
+		// Unset the canonical if requested.
+		if ( ! $canonical ) {
+			unset( $fields['canonical'] );
+		}
 
 		// Return our array.
 		return apply_filters( 'minshare_meta_field_groups', $fields );
@@ -92,6 +112,7 @@ class MinimumViableMeta_Fields {
 			'type'  => 'text',
 			'name'  => '',
 			'label' => '',
+			'count' => false
 		);
 
 		// Parse my args.
@@ -136,14 +157,19 @@ class MinimumViableMeta_Fields {
 			$field .= '<label class="field-label" for="' . esc_attr( $args['id'] ) . '">' . esc_html( $args['label'] ) . '</label>';
 		}
 
-		// If this is a title field, output the character counter.
-		if ( ! empty( $args['key'] ) && 'title' === esc_attr( $args['key'] ) ) {
+		// If we called it, output the character counter.
+		if ( ! empty( $args['count'] ) ) {
 
 			// Check for the "more" item.
 			$more   = ! empty( $args['more'] ) ? $args['more'] : false;
 
 			// Show the field.
 			$field .= self::show_character_count( $value, 'title', $more );
+		}
+
+		// Output our help text if we have one.
+		if ( ! empty( $args['help'] ) ) {
+			$field .= '<p class="description">' . wp_kses_post( $args['help'] ) . '</p>';
 		}
 
 		// Echo it if requested.
@@ -207,8 +233,8 @@ class MinimumViableMeta_Fields {
 			$field .= '<label class="field-label" for="' . esc_attr( $args['id'] ) . '">' . esc_html( $args['label'] ) . '</label>';
 		}
 
-		// If this is a desc field, output the character counter.
-		if ( ! empty( $args['key'] ) && 'desc' === esc_attr( $args['key'] ) ) {
+		// If we called it, output the character counter.
+		if ( ! empty( $args['count'] ) ) {
 
 			// Check for the "more" item.
 			$more   = ! empty( $args['more'] ) ? $args['more'] : false;

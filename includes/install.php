@@ -9,10 +9,11 @@ function minshare_meta_install() {
 
 	// Set our initial default values.
 	$setup  = array(
-		'title' => get_bloginfo( 'name' ),
-		'desc'  => get_bloginfo( 'description' ),
-		'card'  => 'summary',
-		'image' => '',
+		'title'     => get_bloginfo( 'name' ),
+		'desc'      => get_bloginfo( 'description' ),
+		'card'      => 'summary',
+		'image'     => '',
+		'canonical' => '',
 	);
 
 	// Filter the initial values.

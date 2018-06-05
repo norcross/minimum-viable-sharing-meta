@@ -36,7 +36,7 @@ class MinimumViableMeta_Settings {
 	public function load_default_settings() {
 
 		// Fetch my group of fields, and bail without them.
-		if ( false === $fields = MinimumViableMeta_Fields::get_fields_group() ) {
+		if ( false === $fields = MinimumViableMeta_Fields::get_fields_group( false ) ) {
 			return;
 		}
 
@@ -155,6 +155,7 @@ class MinimumViableMeta_Settings {
 		switch ( esc_attr( $ftype ) ) {
 
 			case 'text' :
+			case 'url' :
 				echo MinimumViableMeta_Fields::text_field( $args, $value );
 				break;
 
